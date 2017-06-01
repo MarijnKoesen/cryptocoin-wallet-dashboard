@@ -1,5 +1,6 @@
 ###> my-ignores ###
 .idea
+.php_cs.cache
 ###< my-ignores ###
 
 ###> symfony/framework-bundle ###

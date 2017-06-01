@@ -1,6 +1,6 @@
 <?php
 
-use App\Kernel;
+use MarijnKoesen\CryptocoinWalletDashboard\Kernel;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;

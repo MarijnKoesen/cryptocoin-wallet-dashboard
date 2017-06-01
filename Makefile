@@ -2,6 +2,11 @@ ifndef APP_ENV
 	include .env
 endif
 
+###> marijnkoesen/cryptocoin-wallet-dashboard ###
+code-style:
+	vendor/bin/php-cs-fixer fix
+###< marijnkoesen/cryptocoin-wallet-dashboard ###
+
 ###> symfony/framework-bundle ###
 cache-clear:
 	@test -f bin/console && bin/console cache:clear --no-warmup || rm -rf var/cache/*
