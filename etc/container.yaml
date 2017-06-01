@@ -1,5 +1,51 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    coins:
+        BCN:
+            name: Bytecoin
+            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/bytecoin-bcn/'
+
+        DASH:
+            name: Dash
+            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/dash/'
+
+        ETH:
+            name: Ethereum
+            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/ethereum/'
+
+        LTC:
+            name: Litecoin
+            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/litecoin/'
+
+        STRAT:
+            name: Stratis
+            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/stratis/'
+
+        WAVES:
+            name: Waves
+            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/waves/'
+
+        XBT:
+            name: Bitcoin
+            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/bitcoin/'
+
+        XEM:
+            name: NEM
+            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/nem/'
+
+        XMR:
+            name: Monero
+            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/monero/'
+
+        XRP:
+            name: Ripple
+            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/ripple/'
+
 
 services:
+     MarijnKoesen\CryptocoinWalletDashboard\Controller\HomeController:
+         arguments:
+            - '@MarijnKoesen\CryptocoinWalletDashboard\Core\Wallet\Wallet'
+            - '@twig'
+

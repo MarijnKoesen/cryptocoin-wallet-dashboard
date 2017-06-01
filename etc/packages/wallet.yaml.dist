@@ -1,0 +1,12 @@
+parameters:
+    wallet:
+        # Supported coins: BCN, DASH, ETH, LTC, STRAT, WAVES, XBT, XEM, XMR, XRP
+        BCN:
+            amount: 100
+            boughtFor: '5 EUR'
+        DASH:
+            amount: 10
+            boughtFor: '10 EUR'
+        ETH:
+            amount: 50
+            boughtFor: '2.50 EUR'
