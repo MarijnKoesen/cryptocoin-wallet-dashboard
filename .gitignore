@@ -1,6 +1,7 @@
 ###> my-ignores ###
 .idea
 .php_cs.cache
+etc/packages/wallet.yaml
 ###< my-ignores ###
 
 ###> symfony/framework-bundle ###

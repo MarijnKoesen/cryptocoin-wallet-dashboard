@@ -1,0 +1,7 @@
+<h1>Hello World</h1>
+
+<ul>
+{% for entry in wallet.entries %}
+    <li>{{ entry.coin }}: {{ entry.amount }}</li>
+{% endfor %}
+</ul>
