@@ -1,0 +1,10 @@
+###> my-ignores ###
+.idea
+###< my-ignores ###
+
+###> symfony/framework-bundle ###
+.env
+/var/
+/vendor/
+/web/bundles/
+###< symfony/framework-bundle ###
