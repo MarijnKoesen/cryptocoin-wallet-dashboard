@@ -13,11 +13,14 @@ class EntryTest extends TestCase
 {
     public function testConstructor()
     {
-        $entry = new Entry(Coin::RIPPLE(), 10, Money::EUR(22), Money::EUR(23));
+        $entry = new Entry(Coin::RIPPLE(), 10, Money::EUR(20), Money::EUR(21));
 
         $this->assertEquals(Coin::RIPPLE(), $entry->getCoin());
         $this->assertSame(10.0, $entry->getAmount());
-        $this->assertEquals(Money::EUR(22.0), $entry->getInitialValue());
-        $this->assertEquals(Money::EUR(23.0), $entry->getCurrentValue());
+        $this->assertEquals(Money::EUR(20.0), $entry->getInitialValue());
+        $this->assertEquals(Money::EUR(21.0), $entry->getCurrentValue());
+
+        $this->assertEquals(Money::EUR(1), $entry->getProfit());
+        $this->assertEquals(5, $entry->getProfitPercentage());
     }
 }
