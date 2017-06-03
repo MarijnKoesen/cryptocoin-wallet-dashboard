@@ -56,4 +56,16 @@ class Entry
     {
         return $this->currentValue;
     }
+
+    public function getProfit(): Money
+    {
+        return $this->currentValue->subtract($this->initialValue);
+    }
+
+    public function getProfitPercentage(): float
+    {
+        $profit = $this->getProfit();
+
+        return 100 * ($profit->getAmount() / $this->initialValue->getAmount());
+    }
 }
