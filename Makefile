@@ -5,6 +5,13 @@ endif
 ###> marijnkoesen/cryptocoin-wallet-dashboard ###
 code-style:
 	vendor/bin/php-cs-fixer fix
+
+coverage:
+	vendor/bin/phpunit --coverage-html=var/test-coverage
+
+test:
+	vendor/bin/phpunit
+
 ###< marijnkoesen/cryptocoin-wallet-dashboard ###
 
 ###> symfony/framework-bundle ###
