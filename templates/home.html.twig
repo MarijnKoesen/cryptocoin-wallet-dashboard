@@ -1,7 +1,76 @@
-<h1>Hello World</h1>
+<html>
+    <head>
+        <title>Cryptocoin Wallet Dashboard</title>
 
-<ul>
-{% for entry in wallet.entries %}
-    <li>{{ entry.coin }}: {{ entry.amount }}</li>
-{% endfor %}
-</ul>
+        <style>
+            html {
+                font-family: Helvetica Neue, Arial;
+                background: #111;
+
+                color: #ddd;
+                font-size: 2em;
+            }
+
+            .green {
+                color: rgb(24, 167, 17);
+            }
+
+            .red {
+                color: rgb(232, 47, 38);
+            }
+
+            .entry {
+                display: block;
+            }
+
+            .entry div {
+                vertical-align: middle;
+                text-align: center;
+            }
+
+            .entry div:first-child {
+                color: #516bfb;
+                font-size: 150%;
+            }
+
+            .entry div:nth-child(3),
+            .entry div:nth-child(5) {
+                margin: 0;
+            }
+
+            .entry div {
+                display: inline-grid;
+                margin: 1em;
+            }
+        </style>
+    </head>
+
+    <body>
+        {% for entry in wallet.entries %}
+        <div class="entry">
+            <div>
+                {{ entry.coin }}
+            </div>
+
+            <div>
+                <span>{{ (entry.initialValue.amount / 100 / entry.amount)|round(4) }}</span>
+                <span>{{ entry.initialValue|formatMoney }}</span>
+            </div>
+
+            <div>=></div>
+
+            <div>
+                <span>{{ (entry.currentValue.amount / 100 / entry.amount)|round(4) }}</span>
+                <span>{{ entry.currentValue|formatMoney }}</span>
+            </div>
+
+            <div>=</div>
+
+            <div class="{% if entry.profit.amount > 0 %}green{% else %}red{% endif %}">
+                <span>{{ entry.profitPercentage|round(2) }}%</span>
+                <span>{{ entry.profit|formatMoney }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </body>
+</html>
