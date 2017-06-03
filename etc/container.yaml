@@ -42,10 +42,43 @@ parameters:
             name: Ripple
             tickerApi: 'https://api.coinmarketcap.com/v1/ticker/ripple/'
 
+imports:
+    - { resource: 'container/guzzle.yaml' }
 
 services:
      MarijnKoesen\CryptocoinWalletDashboard\Controller\HomeController:
          arguments:
             - '@MarijnKoesen\CryptocoinWalletDashboard\Core\Wallet\Wallet'
             - '@twig'
+
+     MarijnKoesen\CryptocoinWalletDashboard\Rates\MoneyRateProvider\Fixer:
+         arguments:
+            - '@guzzle'
+
+     MarijnKoesen\CryptocoinWalletDashboard\Rates\CoinRateProvider\MarketCap:
+         arguments:
+            - '%coins%'
+            - '@MarijnKoesen\CryptocoinWalletDashboard\Rates\MoneyRateProvider\Fixer'
+            - '@guzzle'
+
+     MarijnKoesen\CryptocoinWalletDashboard\Core\Wallet\Wallet:
+         factory: 'MarijnKoesen\CryptocoinWalletDashboard\Core\Wallet\Factory\WalletFactory:getWallet'
+         arguments:
+            - '%wallet%'
+
+     # Formatting
+     number_formatter:
+        class: NumberFormatter
+        arguments:
+            - 'en_US'
+            - !php/const:NumberFormatter::CURRENCY
+
+     currencies:
+        class: Money\Currencies\ISOCurrencies
+
+     money_formatter:
+        class: Money\Formatter\IntlMoneyFormatter
+        arguments:
+            - '@number_formatter'
+            - '@currencies'
 
