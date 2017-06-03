@@ -1,0 +1,43 @@
+services:
+    guzzle:
+        alias: guzzle_cached
+
+    guzzle_non_cached:
+        class: GuzzleHttp\Client
+
+    guzzle_cached:
+        class: GuzzleHttp\Client
+        arguments:
+            - handler: '@guzzle_cache_stack'
+
+    guzzle_cache_stack:
+        class: GuzzleHttp\HandlerStack
+        factory: ['GuzzleHttp\HandlerStack', create]
+        calls:
+            - method: 'push'
+              arguments:
+                - '@guzzle_cache_middleware'
+
+    guzzle_cache_middleware:
+        class: Kevinrob\GuzzleCache\CacheMiddleware
+        arguments:
+            - '@guzzle_greedy_cache_strategy'
+
+    guzzle_greedy_cache_strategy:
+        class: Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy
+        arguments:
+            - '@guzzle_cache_storage'
+            - 600
+
+    guzzle_cache_storage:
+        class: Kevinrob\GuzzleCache\Storage\DoctrineCacheStorage
+        arguments:
+            - '@guzzle_file_system_cache'
+
+    guzzle_file_system_cache:
+        class: Doctrine\Common\Cache\FilesystemCache
+        arguments:
+            - '%kernel.cache_dir%/guzzle-cache/'
+
+
+
