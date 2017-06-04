@@ -12,11 +12,11 @@ parameters:
 
         ETH:
             name: Ethereum
-            ticketApi: 'https://api.coinmarketcap.com/v1/ticker/ethereum/'
+            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/ethereum/'
 
         LTC:
             name: Litecoin
-            ticketApi: 'https://api.coinmarketcap.com/v1/ticker/litecoin/'
+            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/litecoin/'
 
         STRAT:
             name: Stratis
@@ -24,7 +24,7 @@ parameters:
 
         WAVES:
             name: Waves
-            ticketApi: 'https://api.coinmarketcap.com/v1/ticker/waves/'
+            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/waves/'
 
         XBT:
             name: Bitcoin
@@ -32,11 +32,11 @@ parameters:
 
         XEM:
             name: NEM
-            ticketApi: 'https://api.coinmarketcap.com/v1/ticker/nem/'
+            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/nem/'
 
         XMR:
             name: Monero
-            ticketApi: 'https://api.coinmarketcap.com/v1/ticker/monero/'
+            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/monero/'
 
         XRP:
             name: Ripple
