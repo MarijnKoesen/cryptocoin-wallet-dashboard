@@ -9,6 +9,9 @@ code-style:
 coverage:
 	vendor/bin/phpunit --coverage-html=var/test-coverage
 
+coverage-clover:
+	vendor/bin/phpunit --coverage-text --coverage-clover=build/unit_coverage.xml
+
 test:
 	vendor/bin/phpunit
 

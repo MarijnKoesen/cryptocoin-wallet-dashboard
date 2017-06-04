@@ -1,0 +1,39 @@
+language: php
+
+sudo: false
+
+php:
+    - 7.1
+
+env:
+    global:
+        - TEST_COMMAND="make test"
+
+# Cache composer packages so "composer install" is faster
+cache:
+    directories:
+        - $HOME/.composer/cache/files
+
+before-install:
+    - composer self-update
+
+matrix:
+    fast_finish: true
+    include:
+        - php: 7.1
+          env: COVERAGE=true TEST_COMMAND="make coverage-clover"
+
+before_install:
+    - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
+
+install:
+    - cp .env.dist .env
+    - cp etc/packages/wallet.yaml.dist etc/packages/wallet.yaml
+    - composer install
+
+script:
+    - make coverage-clover
+
+after_success:
+    - if [[ $COVERAGE = true ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+    - if [[ $COVERAGE = true ]]; then php ocular.phar code-coverage:upload --format=php-clover build/unit_coverage.xml; fi
