@@ -9,7 +9,6 @@
 ![Console Dashboard](/resources/console.png?raw=true)
 ![Web Dashboard](/resources/web.png?raw=true)
 
-
 ## Install
 
 To start using the dashboard you need to clone the project and setup your wallet
@@ -20,6 +19,27 @@ $ git clone https://github.com/MarijnKoesen/cryptocoin-wallet-dashboard.git
 $ cd cryptocoin-wallet-dashboard.git
 $ cp .env.dist .env
 $ cp etc/packages/wallet.yaml.dist etc/packages/wallet.yaml
+```
+
+## Configure API keys
+
+**CoinMarketCap API**: Sign up at https://pro.coinmarketcap.com/signup/ and get the free developer API key.
+Then edit `etc/container.yaml` and set `coinmarketcap`'s `key` value.
+
+```
+parameters:
+    api:
+        coinmarketcap:
+            key: '<< HERE >>'
+```
+
+**Fixer API**: Sign up at https://fixer.io/product/ and get the free API key.
+Then edit `etc/container.yaml` and set `fixer`'s `key` value.
+```
+parameters:
+    api:
+        fixer:
+            key: '<< HERE >>'
 ```
 
 ## Configuration

@@ -14,6 +14,11 @@ final class MarketCap implements CoinRateProvider
     /**
      * @var array
      */
+    private $apiConfig;
+
+    /**
+     * @var array
+     */
     private $config;
 
     /**
@@ -25,8 +30,9 @@ final class MarketCap implements CoinRateProvider
      */
     private $eurUsdRateProvider;
 
-    public function __construct(array $config, MoneyRateProvider $eurUsdRateProvider, ClientInterface $guzzle)
+    public function __construct(array $apiConfig, array $config, MoneyRateProvider $eurUsdRateProvider, ClientInterface $guzzle)
     {
+        $this->apiConfig = $apiConfig;
         $this->config = $config;
         $this->guzzle = $guzzle;
         $this->eurUsdRateProvider = $eurUsdRateProvider;
@@ -38,10 +44,19 @@ final class MarketCap implements CoinRateProvider
             throw new RuntimeException('Coin ' . $coin->getValue() . ' is not supported');
         }
 
-        $apiResponse = $this->guzzle->request('GET', $this->config[$coin->getValue()]['tickerApi'])->getBody();
-        $data = json_decode($apiResponse, true)[0];
+        $apiResponse = $this->guzzle->request('GET', $this->apiConfig['coinmarketcap']['url'], [
+            'headers' => ['X-CMC_PRO_API_KEY' => $this->apiConfig['coinmarketcap']['key']]
+        ])->getBody();
+        $data = json_decode($apiResponse, true);
+        $data = $data['data'];
+        $data = current(array_filter($data, function ($item) use ($coin) {
+            return $item['symbol'] == $coin;
+        }));
+        if ($data === false) {
+            throw new RuntimeException('Symbol ' . $coin->getValue() . ' not found in output');
+        }
 
-        $rateInUsd = $data['price_usd'];
+        $rateInUsd = $data['quote']['USD']['price'];
 
         if (strtoupper($currency->getCode()) == 'USD') {
             return $rateInUsd;

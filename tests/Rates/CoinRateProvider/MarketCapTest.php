@@ -46,9 +46,9 @@ final class MarketCapTest extends TestCase
     /**
      * @test
      */
-    public function anExceptionIsThrownForAnUnkonwnCoin()
+    public function anExceptionIsThrownForAnUnknownCoin()
     {
-        $provider = new MarketCap([], $this->getMoneyRateProviderThatIsNotCalled(), new Client());
+        $provider = new MarketCap([], [], $this->getMoneyRateProviderThatIsNotCalled(), new Client());
 
         $this->expectException(RuntimeException::class);
         $provider->getRate(Coin::BITCOIN(), new Currency('CAD'));
@@ -107,6 +107,7 @@ final class MarketCapTest extends TestCase
         $client = $this->getGuzzleMock($apiResult);
 
         $provider = new MarketCap(
+            [],
             [
                 $coin->getValue() => [
                     'tickerApi' => 'http://the.api'

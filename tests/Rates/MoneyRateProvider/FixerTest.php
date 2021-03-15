@@ -21,9 +21,10 @@ final class FixerTest extends TestCase
      */
     public function fetchingRate()
     {
-        $apiResult = '{"base":"EUR","date":"2017-05-31","rates":{"GBP":0.87365,"USD":1.1221}}';
+        $apiResult = '{"success":true,"timestamp":1615828626,"base":"EUR","date":"2021-03-15","rates":{"GBP":0.87365,"USD":1.1221}}';
         $client = $this->getGuzzleMock($apiResult);
-        $provider = new Fixer($client);
+        $mockConfig = ['fixer' => ['key' => '', 'url' => 'mock_url']];
+        $provider = new Fixer($mockConfig, $client);
 
         $rate = $provider->getRate(new Currency('EUR'), new Currency('USD'));
         self::assertEquals(1.1221, $rate, '', 0.0000001);
@@ -34,9 +35,10 @@ final class FixerTest extends TestCase
      */
     public function anExceptionIsThrownForNotFoundCurrency()
     {
-        $apiResult = '{"base":"EUR","date":"2017-05-31","rates":{"GBP":0.87365,"USD":1.1221}}';
+        $apiResult = '{"success":true,"timestamp":1615828626,"base":"EUR","date":"2021-03-15","rates":{"GBP":0.87365,"USD":1.1221}}';
         $client = $this->getGuzzleMock($apiResult);
-        $provider = new Fixer($client);
+        $mockConfig = ['fixer' => ['key' => '', 'url' => 'mock_url']];
+        $provider = new Fixer($mockConfig, $client);
 
         self::expectException(RuntimeException::class);
         $provider->getRate(new Currency('EUR'), new Currency('CAD'));

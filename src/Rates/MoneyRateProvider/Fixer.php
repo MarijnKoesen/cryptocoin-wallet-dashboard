@@ -10,12 +10,18 @@ use RuntimeException;
 final class Fixer implements MoneyRateProvider
 {
     /**
+     * @var array
+     */
+    private $apiConfig;
+
+    /**
      * @var ClientInterface
      */
     private $guzzle;
 
-    public function __construct(ClientInterface $guzzle)
+    public function __construct(array $apiConfig, ClientInterface $guzzle)
     {
+        $this->apiConfig = $apiConfig;
         $this->guzzle = $guzzle;
     }
 
@@ -24,7 +30,10 @@ final class Fixer implements MoneyRateProvider
         $fromString = strtoupper($from->getCode());
         $toString = strtoupper($to->getCode());
 
-        $apiEndPoint = 'http://api.fixer.io/latest?base=' . $fromString . '&symbols=' . $toString;
+        $apiEndPoint = $this->apiConfig['fixer']['url'];
+        $apiEndPoint = str_replace('{api_key}', $this->apiConfig['fixer']['key'], $apiEndPoint);
+        $apiEndPoint = str_replace('{from}', $fromString, $apiEndPoint);
+        $apiEndPoint = str_replace('{to}', $toString, $apiEndPoint);
 
         $apiResponse = $this->guzzle->request('GET', $apiEndPoint)->getBody();
         $data = json_decode($apiResponse, true);
