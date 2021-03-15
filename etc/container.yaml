@@ -1,46 +1,49 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    api:
+        coinmarketcap:
+            key: '< HERE >'
+            url: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=5000'
+            # With the free version it's the above URL for all coins at once.
+            # The Paid API gives access to the following endpoint that allows filtering per coin:
+            # https://pro-api.coinmarketcap.com/v1/cryptocurrency/market-pairs/latest
+        fixer:
+            key: '< HERE >'
+            url: 'http://data.fixer.io/latest?access_key={api_key}&symbols={from},{to}'
+            # Paid version has the following endpoint available (and also the one that allows "base")
+            # http://api.fixer.io/latest?access_key={api_key}&from={from}&to={to}
+
     coins:
         BCN:
             name: Bytecoin
-            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/bytecoin-bcn/'
 
         DASH:
             name: Dash
-            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/dash/'
 
         ETH:
             name: Ethereum
-            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/ethereum/'
 
         LTC:
             name: Litecoin
-            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/litecoin/'
 
         STRAT:
             name: Stratis
-            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/stratis/'
 
         WAVES:
             name: Waves
-            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/waves/'
 
         XBT:
             name: Bitcoin
-            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/bitcoin/'
 
         XEM:
             name: NEM
-            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/nem/'
 
         XMR:
             name: Monero
-            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/monero/'
 
         XRP:
             name: Ripple
-            tickerApi: 'https://api.coinmarketcap.com/v1/ticker/ripple/'
 
 imports:
     - { resource: 'container/guzzle.yaml' }
@@ -53,10 +56,12 @@ services:
 
      MarijnKoesen\CryptocoinWalletDashboard\Rates\MoneyRateProvider\Fixer:
          arguments:
+            - '%api%'
             - '@guzzle'
 
      MarijnKoesen\CryptocoinWalletDashboard\Rates\CoinRateProvider\MarketCap:
          arguments:
+            - '%api%'
             - '%coins%'
             - '@MarijnKoesen\CryptocoinWalletDashboard\Rates\MoneyRateProvider\Fixer'
             - '@guzzle'
@@ -71,7 +76,7 @@ services:
         class: NumberFormatter
         arguments:
             - 'en_US'
-            - !php/const:NumberFormatter::CURRENCY
+            - !php/const:\NumberFormatter::CURRENCY
 
      currencies:
         class: Money\Currencies\ISOCurrencies
